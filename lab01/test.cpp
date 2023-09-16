@@ -3,11 +3,11 @@
 #include "convert.hpp"
 
 TEST(ConvertTo24HourFormat, AMHourConversion) {
-    int hour = 10;
+    int hour = 8;
     int minute = 30;
     std::string period = "am";
     std::string result = convert(hour, minute, period);
-    ASSERT_TRUE(result == "1030");
+    ASSERT_TRUE(result == "0830");
 }
 
 TEST(ConvertTo24HourFormat, PMHourConversion) {
