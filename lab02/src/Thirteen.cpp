@@ -4,11 +4,31 @@ bool isThirteenDigit(const char &c) {
     return (('0' <= c && c <= '9') || (c == 'A') || (c == 'B') || (c == 'C'));
 }
 
+int charToInt(const char &c) {
+    if (c == 'A') {
+        return 10;
+    } else if (c == 'B') {
+        return 11;
+    } else if (c == 'C') {
+        return 12;
+    } else {
+        return c - '0';
+    }
+}
+
+char intToChar(int &n) {
+    if (n == 10) {
+        return 'A';
+    } else if (n == 11) {
+        return 'B';
+    } else if (n == 12) {
+        return 'C';
+    } else {
+        return n + '0';
+    }
+}
+
 Thirteen::Thirteen() : size(0), data{nullptr} {}
-
-size_t Thirteen::getSize() const { return size; }
-
-unsigned char *Thirteen::getData() const { return data; }
 
 Thirteen::Thirteen(const size_t &n, unsigned char t) {
     data = new unsigned char[n];
@@ -21,7 +41,7 @@ Thirteen::Thirteen(const size_t &n, unsigned char t) {
 Thirteen::Thirteen(const std::initializer_list<unsigned char> &t) {
     data = new unsigned char[t.size()];
     size = t.size();
-    size_t i{size};
+    size_t i = size;
     for (unsigned char c : t) {
         if (!isThirteenDigit(c)) {
             throw std::logic_error("Wrong value og Thirteen number");
@@ -68,72 +88,79 @@ Thirteen Thirteen::operator=(const Thirteen &other) {
     return *this;
 }
 
-Thirteen Thirteen::operator+(const Thirteen &other) const {
-    size_t resultSize = std::max(other.size, size) + 1;
+Thirteen Thirteen::operator+(const Thirteen &other) {
+    size_t resultSize = std::max(size, other.size) + 1;
     std::string result(resultSize, '0');
-    int temp = 0;
+    int carry = 0;
+
     for (size_t i = 0; i < resultSize; ++i) {
-        int d1 = (i < size)
-                     ? (data[i] != 'A' ? (data[i] != 'B' ? (data[i] != 'C' ? (data[i] - '0') : 12) : 11) : 10)
-                     : 0;
-        int d2 =
-            (i < other.size)
-                ? (other.data[i] != 'A'
-                       ? (other.data[i] != 'B' ? (other.data[i] != 'C' ? (other.data[i] - '0') : 12) : 11)
-                       : 10)
-                : 0;
-        int sum = d1 + d2 + temp;
-        result[i] = ((sum % 13) != 12)
-                        ? (((sum % 13) != 11) ? (((sum % 13) != 10) ? (sum % 13) + '0' : 'A') : 'B')
-                        : 'C';
-        temp = sum / 13;
+        int d1 = 0, d2 = 0;
+
+        if (i < size) {
+            d1 = charToInt(data[i]);
+        }
+        if (i < other.size) {
+            d2 = charToInt(other.data[i]);
+        }
+
+        int sum = d1 + d2 + carry;
+
+        if (sum >= 13) {
+            carry = 1;
+            sum -= 13;
+        } else {
+            carry = 0;
+        }
+        result[i] = intToChar(sum);
     }
-    if (temp > 0) {
-        result[resultSize - 1] =
-            (temp != 12) ? ((temp != 11) ? ((temp != 10) ? temp + '0' : 'A') : 'B') : 'C';
-    }
-    if (result[resultSize - 1] == '0') {
-        result.erase(resultSize - 1, 1);
+
+    while (result.size() > 1 && result.back() == '0') {
+        result.pop_back();
     }
     std::reverse(result.begin(), result.end());
+
     return Thirteen(result);
 }
 
-Thirteen Thirteen::operator-(const Thirteen &other) const {
+Thirteen Thirteen::operator-(const Thirteen &other) {
     if (*this < other) {
         throw std::logic_error("Difference can't be negative");
     }
-    size_t resultSize = std::max(other.size, size) + 1;
-    std::string result(resultSize, '0');
-    int temp = 0;
-    for (size_t i = 0; i < resultSize; ++i) {
-        int d1 = (i < size)
-                     ? (data[i] != 'A' ? (data[i] != 'B' ? (data[i] != 'C' ? (data[i] - '0') : 12) : 11) : 10)
-                     : 0;
-        int d2 =
-            (i < other.size)
-                ? (other.data[i] != 'A'
-                       ? (other.data[i] != 'B' ? (other.data[i] != 'C' ? (other.data[i] - '0') : 12) : 11)
-                       : 10)
-                : 0;
 
-        int diff = d1 - d2 - temp;
-        if (diff < 0) {
-            diff += 13;
-            temp = 1;
-        } else {
-            temp = 0;
+    size_t resultSize = std::max(size, other.size);
+    std::string result(resultSize, '0');
+    int borrow = 0;
+
+    for (size_t i = 0; i < resultSize; ++i) {
+        int d1 = 0, d2 = 0;
+
+        if (i < size) {
+            d1 = charToInt(data[i]);
         }
-        result[i] = (diff != 12) ? ((diff != 11) ? ((diff != 10) ? diff + '0' : 'A') : 'B') : 'C';
+        if (i < other.size) {
+            d2 = charToInt(other.data[i]);
+        }
+
+        int diff = d1 - d2 - borrow;
+
+        if (diff < 0) {
+            borrow = 1;
+            diff += 13;
+        } else {
+            borrow = 0;
+        }
+        result[i] = intToChar(diff);
     }
-    if (result[resultSize - 1] == '0') {
-        result.erase(resultSize - 1, 1);
+
+    while (result.size() > 1 && result.back() == '0') {
+        result.pop_back();
     }
     std::reverse(result.begin(), result.end());
+
     return Thirteen(result);
 }
 
-bool Thirteen::operator==(const Thirteen &other) const {
+bool Thirteen::operator==(const Thirteen &other) {
     if (&other == this) {
         return true;
     }
@@ -148,14 +175,14 @@ bool Thirteen::operator==(const Thirteen &other) const {
     return true;
 }
 
-bool Thirteen::operator!=(const Thirteen &other) const {
+bool Thirteen::operator!=(const Thirteen &other) {
     if (*this == other) {
         return false;
     }
     return true;
 }
 
-bool Thirteen::operator<(const Thirteen &other) const {
+bool Thirteen::operator<(const Thirteen &other) {
     if (&other == this) {
         return false;
     }
@@ -178,32 +205,25 @@ bool Thirteen::operator<(const Thirteen &other) const {
     }
 }
 
-bool Thirteen::operator<=(const Thirteen &other) const {
+bool Thirteen::operator<=(const Thirteen &other) {
     if (*this > other) {
         return false;
     }
     return true;
 }
 
-bool Thirteen::operator>(const Thirteen &other) const {
+bool Thirteen::operator>(const Thirteen &other) {
     if (*this < other || *this == other) {
         return false;
     }
     return true;
 }
 
-bool Thirteen::operator>=(const Thirteen &other) const {
+bool Thirteen::operator>=(const Thirteen &other) {
     if (*this < other) {
         return false;
     }
     return true;
-}
-
-std::ostream &Thirteen::print(std::ostream &os) {
-    for (size_t i = size; --i;) {
-        os << data[i];
-    }
-    return os;
 }
 
 Thirteen::~Thirteen() noexcept {
@@ -212,4 +232,11 @@ Thirteen::~Thirteen() noexcept {
         delete[] data;
         data = nullptr;
     }
+}
+
+std::ostream &operator<<(std::ostream &os, const Thirteen &num) {
+    for (size_t i = num.size; i > 0; --i) {
+        os << num.data[i - 1];  // Выводим цифры в обратном порядке
+    }
+    return os;
 }

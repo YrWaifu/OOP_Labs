@@ -20,6 +20,10 @@ TEST(TestConstructors, InitListConstructorTest) {
     ASSERT_TRUE(num1 == num2);
 }
 
+TEST(TestConstructors, InitListConstructorErrorTest) {
+    ASSERT_THROW({ Thirteen num2({'H', '1', 'A', '4'}); }, std::logic_error);
+}
+
 TEST(TestBoolOps, EqualTest) {
     Thirteen num1("AA34");
     Thirteen num2({'A', '3', '3', '4'});
@@ -65,19 +69,37 @@ TEST(TestBoolOps, MoreEqualTest) {
 TEST(TestArithmeticOps, AddittionTest) {
     Thirteen num1("5A");
     Thirteen num2({'1', '6'});
-    ASSERT_TRUE((num1 + num2) == Thirteen("75"));
+    ASSERT_TRUE((num1 + num2) == Thirteen("73"));
+}
+
+TEST(TestArithmeticOps, AddittionTest2) {
+    Thirteen num1("5AA");
+    Thirteen num2({'1', '6'});
+    ASSERT_TRUE((num1 + num2) == Thirteen("5C3"));
+}
+
+TEST(TestArithmeticOps, AddittionTest3) {
+    Thirteen num1("5A");
+    Thirteen num2({'1', '6', 'C'});
+    ASSERT_TRUE((num1 + num2) == Thirteen("1C9"));
 }
 
 TEST(TestArithmeticOps, SubstractionTest1) {
     Thirteen num1("76");
     Thirteen num2({'7'});
-    ASSERT_TRUE((num1 - num2) == Thirteen("6A"));
+    ASSERT_TRUE((num1 - num2) == Thirteen("6C"));
 }
 
 TEST(TestArithmeticOps, SubstractionTest2) {
     Thirteen num1("A31");
     Thirteen num2({'7'});
-    ASSERT_TRUE((num1 - num2) == Thirteen("A25"));
+    ASSERT_TRUE((num1 - num2) == Thirteen("A27"));
+}
+
+TEST(TestArithmeticOps, SubstractionErrorTest) {
+    Thirteen num1("7");
+    Thirteen num2({'A', '3', '1'});
+    ASSERT_THROW({ Thirteen result = num1 - num2; }, std::logic_error);
 }
 
 int main(int argc, char **argv) {
