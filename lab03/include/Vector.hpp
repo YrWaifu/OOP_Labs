@@ -4,7 +4,9 @@
 
 #include <stdexcept>
 
-#include "Figure.hpp"
+#include "Rectangle.hpp"
+#include "Square.hpp"
+#include "Triangle.hpp"
 
 class Vector {
    public:

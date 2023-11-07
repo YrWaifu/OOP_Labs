@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../include/Figure.hpp"
+#include "Figure.hpp"
 
 class Square : public Figure {
    public:
@@ -17,5 +17,5 @@ class Square : public Figure {
         n = 0;
         delete[] array;
         array = nullptr;
-    }
+    };
 };

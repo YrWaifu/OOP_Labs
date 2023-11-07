@@ -16,12 +16,6 @@ Square::Square(Point& point1, Point& point2, Point& point3, Point& point4) {
     }
 }
 
-Square::~Square() {
-    n = 0;
-    delete[] array;
-    array = nullptr;
-}
-
 void Square::operator=(const Square& figure) {
     n = figure.n;
     array = new Point[n];

@@ -16,12 +16,6 @@ Triangle::Triangle(Point& point1, Point& point2, Point& point3) {
     }
 }
 
-Triangle::~Triangle() {
-    n = 0;
-    delete[] array;
-    array = nullptr;
-}
-
 void Triangle::operator=(const Triangle& figure) {
     n = figure.n;
     array = new Point[n];

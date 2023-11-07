@@ -5,7 +5,7 @@ size_t Vector::getSize() { return size; }
 Figure** Vector::getVector() { return array; }
 
 void Vector::pushBack(Figure* figure) {
-    if (figure == nullptr) {
+    if (!figure->checkGeomValid()) {
         return;
     }
 
@@ -18,7 +18,6 @@ void Vector::pushBack(Figure* figure) {
 
     newArray[size] = figure;
 
-    delete[] array;
     array = newArray;
     size = newSize;
 }

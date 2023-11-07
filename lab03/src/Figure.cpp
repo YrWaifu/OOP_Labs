@@ -29,10 +29,8 @@ Point Figure::geomCentre() const {
 }
 
 Figure::operator double() const {
-    if (this->checkGeomValid()) {
-        return (n * array[1].getDistance(array[0]) * array[2].getDistance(array[1]) / 4) *
-               (1 / std::tan(M_PI / n));
-    }
+    return (n * array[1].getDistance(array[0]) * array[2].getDistance(array[1]) / 4) *
+           (1 / std::tan(M_PI / n));
 }
 
 std::istream& operator>>(std::istream& is, Figure& figure) {
@@ -45,11 +43,11 @@ std::istream& operator>>(std::istream& is, Figure& figure) {
     return is;
 }
 
-std::ostream& operator<<(std::ostream& os, Figure& figure) {
-    os << "Coordinates of " << figure.getType() << ":\n";
-    for (int i = 0; i < figure.n; i++) {
-        os << "Point " << i + 1 << ": " << '(' << figure.array[i].coordX << ", " << figure.array[i].coordY
-           << ')' << '\n';
+std::ostream& operator<<(std::ostream& os, Figure* figure) {
+    os << "Coordinates of " << figure->getType() << ":\n";
+    for (int i = 0; i < figure->size(); i++) {
+        os << "Point " << i + 1 << ": " << '(' << figure->getArray()[i].coordX << ", "
+           << figure->getArray()[i].coordY << ')' << '\n';
     }
     return os;
 }

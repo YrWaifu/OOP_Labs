@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../include/Figure.hpp"
+#include "Figure.hpp"
 
 class Rectangle : public Figure {
    public:
@@ -13,5 +13,9 @@ class Rectangle : public Figure {
     void operator=(Rectangle&& figure);
     bool operator==(const Rectangle& figure) const;
 
-    ~Rectangle();
+    ~Rectangle() {
+        n = 0;
+        delete[] array;
+        array = nullptr;
+    };
 };

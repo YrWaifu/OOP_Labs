@@ -16,12 +16,6 @@ Rectangle::Rectangle(Point& point1, Point& point2, Point& point3, Point& point4)
     }
 }
 
-Rectangle::~Rectangle() {
-    n = 0;
-    delete[] array;
-    array = nullptr;
-}
-
 void Rectangle::operator=(const Rectangle& figure) {
     n = figure.n;
     array = new Point[n];
