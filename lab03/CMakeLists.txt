@@ -9,8 +9,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(lab03 main.cpp ./src/Figure.cpp ./src/Point.cpp ./src/Rectangle.cpp ./src/Square.cpp ./src/Triangle.cpp ./src/Vector.cpp)
 
-# enable_testing()
-# add_executable(tests ./tests/tests.cpp ./src/Thirteen.cpp)
-# target_link_libraries(tests ${GTEST_LIBRARIES})
+enable_testing()
+add_executable(tests ./test.cpp ./src/Figure.cpp ./src/Point.cpp ./src/Rectangle.cpp ./src/Square.cpp ./src/Triangle.cpp ./src/Vector.cpp)
+target_link_libraries(tests ${GTEST_LIBRARIES})
 
 add_test(NAME BASIC COMMAND tests)

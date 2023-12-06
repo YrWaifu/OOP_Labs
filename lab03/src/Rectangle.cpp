@@ -1,6 +1,6 @@
 #include "../include/Rectangle.hpp"
 
-#define NRectangle 3
+#define NRectangle 4
 
 Rectangle::Rectangle() {
     n = NRectangle;
@@ -12,7 +12,7 @@ Rectangle::Rectangle(Point& point1, Point& point2, Point& point3, Point& point4)
     array = new Point[n];
     array[0] = point1, array[1] = point2, array[2] = point3, array[3] = point4;
     if (!this->checkGeomValid()) {
-        throw std::logic_error("This Rectangle is wrong");
+        throw std::logic_error("This is not a valid Rectangle");
     }
 }
 

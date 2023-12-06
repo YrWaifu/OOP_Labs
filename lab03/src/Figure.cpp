@@ -10,6 +10,13 @@ bool Figure::checkGeomValid() const {
         }
     }
 
+    if (this->getType() == "Square") {
+        if (round(array[0].getDistance(array[(1)])) != round(array[(1) % n].getDistance(array[(2) % n]))) {
+            throw std::logic_error{"That's not a correct figure!"};
+            flag = false;
+        }
+    }
+
     return flag;
 }
 
