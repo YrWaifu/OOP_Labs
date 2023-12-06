@@ -143,6 +143,22 @@ TEST(test_11, area_test) {
     ASSERT_TRUE((int)area1 == 16 and (int) area2 == 24);
 }
 
+TEST(test_12, pupu) {
+    Point pt1(0, 0);
+    Point pt2(4, 0);
+    Point pt3(4, 6);
+    Point pt4(0, 6);
+
+    Rectangle fig1(pt1, pt2, pt3, pt4);
+
+    Rectangle fig2, fig3;
+
+    fig2 = fig1;
+    fig3 = move(fig1);
+
+    ASSERT_TRUE(fig3 == fig2);
+}
+
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
