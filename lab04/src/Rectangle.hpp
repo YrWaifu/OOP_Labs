@@ -92,6 +92,7 @@ class Rectangle : public Figure<T> {
         side1 = fig.side1;
         side2 = fig.side2;
     }
+
     bool operator==(const Rectangle<T>& other) const {
         return round(static_cast<double>(*this)) == round(static_cast<double>(other));
     }
