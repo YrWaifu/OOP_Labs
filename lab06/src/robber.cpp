@@ -1,7 +1,7 @@
-#include "robber.hpp"
+#include "../include/robber.hpp"
 
-#include "bear.hpp"
-#include "wolf.hpp"
+#include "../include/bear.hpp"
+#include "../include/wolf.hpp"
 
 Robber::Robber(int x, int y) : NPC(RobberType, x, y) {}
 Robber::Robber(std::istream &is) : NPC(RobberType, is) {}
@@ -36,6 +36,6 @@ bool Robber::fight(std::shared_ptr<Robber> other) {
 }
 
 std::ostream &operator<<(std::ostream &os, Robber &robber) {
-    os << "robber 🦹‍:  " << *static_cast<NPC *>(&robber) << std::endl;
+    os << "Robber:  " << *static_cast<NPC *>(&robber) << std::endl;
     return os;
 }

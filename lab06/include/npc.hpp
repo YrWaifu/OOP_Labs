@@ -10,6 +10,7 @@
 #include <set>
 #include <string>
 
+// type for npcs
 struct NPC;
 struct Robber;
 struct Wolf;

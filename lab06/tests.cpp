@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 
-#include "bear.hpp"
-#include "npc.hpp"
-#include "robber.hpp"
-#include "wolf.hpp"
+#include "./include/bear.hpp"
+#include "./include/npc.hpp"
+#include "./include/robber.hpp"
+#include "./include/wolf.hpp"
 
 TEST(Wolf_test, _01) {
     Wolf wolf(40, 50);
@@ -166,7 +166,7 @@ TEST(npc_test, _02) {
 
     for (auto &d : dead_list) array.erase(d);
 
-    std::cout << "Survivors 🎉❤️ : " << std::endl;
+    std::cout << "Survivors: " << std::endl;
 
     for (auto &n : array) n->print();
 }

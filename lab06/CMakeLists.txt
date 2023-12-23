@@ -1,17 +1,21 @@
 cmake_minimum_required(VERSION 3.8)
+#требования к версии
 
-project(lab06)
+project(fLR6)
+#имя проекта
 
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-set(CMAKE_CXX_STANDART 20) 
-set(CMAKE_CXX_STANDART_REQUIRED ON) 
+set(CMAKE_CXX_STANDART 20) #стандарт языка си++
+set(CMAKE_CXX_STANDART_REQUIRED ON) #без соответствия стандарту не будет собран
 
-add_executable(lab06 main.cpp npc.hpp robber.hpp wolf.hpp bear.hpp npc.cpp robber.cpp wolf.cpp bear.cpp) 
+add_executable(fLRp6 main.cpp ./include/npc.hpp ./include/robber.hpp ./include/wolf.hpp ./include/bear.hpp ./src/npc.cpp ./src/robber.cpp ./src/wolf.cpp ./src/bear.cpp)  
+#fLRp - запуск main программы
 
-enable_testing()
-add_executable(tests test.cpp npc.hpp robber.hpp wolf.hpp bear.hpp npc.cpp robber.cpp wolf.cpp bear.cpp)
+enable_testing() #указывает CMake, что планируется использование CTest
+add_executable(fLRt6 tests.cpp ./include/npc.hpp ./include/robber.hpp ./include/wolf.hpp ./include/bear.hpp ./src/npc.cpp ./src/robber.cpp ./src/wolf.cpp ./src/bear.cpp)
+#fLRt - запуск тестов отдельно для функции
 
-target_link_libraries(lab06 ${GTEST_LIBRARIES})
-add_test(NAME BASIC COMMAND lab06)
+target_link_libraries(fLRt6 ${GTEST_LIBRARIES})
+add_test(NAME BASIC COMMAND fLRt6)

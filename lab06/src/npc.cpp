@@ -1,4 +1,4 @@
-#include "npc.hpp"
+#include "../include/npc.hpp"
 
 NPC::NPC(NpcType t, int _x, int _y) : type(t), x(_x), y(_y) {}
 NPC::NPC(NpcType t, std::istream &is) : type(t) {

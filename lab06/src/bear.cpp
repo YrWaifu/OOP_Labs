@@ -1,7 +1,7 @@
-#include "bear.hpp"
+#include "../include/bear.hpp"
 
-#include "robber.hpp"
-#include "wolf.hpp"
+#include "../include/robber.hpp"
+#include "../include/wolf.hpp"
 
 Bear::Bear(int x, int y) : NPC(BearType, x, y) {}
 Bear::Bear(std::istream &is) : NPC(BearType, is) {}
@@ -36,6 +36,6 @@ void Bear::save(std::ostream &os) {
 }
 
 std::ostream &operator<<(std::ostream &os, Bear &bear) {
-    os << "Bear 🐻: " << *static_cast<NPC *>(&bear) << std::endl;
+    os << "Bear: " << *static_cast<NPC *>(&bear) << std::endl;
     return os;
 }

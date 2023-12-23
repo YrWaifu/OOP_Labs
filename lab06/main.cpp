@@ -1,7 +1,7 @@
-#include "bear.hpp"
-#include "npc.hpp"
-#include "robber.hpp"
-#include "wolf.hpp"
+#include "./include/bear.hpp"
+#include "./include/npc.hpp"
+#include "./include/robber.hpp"
+#include "./include/wolf.hpp"
 
 class TextObserver : public IFightObserver {
    private:
@@ -16,7 +16,7 @@ class TextObserver : public IFightObserver {
     void on_fight(const std::shared_ptr<NPC> attacker, const std::shared_ptr<NPC> defender,
                   bool win) override {
         if (win) {
-            std::cout << std::endl << "Murder -------- 👊" << std::endl;
+            std::cout << std::endl << "Murder -------- " << std::endl;
             attacker->print();
             defender->print();
         }
@@ -38,7 +38,7 @@ class F_Observer : public IFightObserver {
     void on_fight(const std::shared_ptr<NPC> attacker, const std::shared_ptr<NPC> defender,
                   bool win) override {
         if (win) {
-            file << std::endl << "Murder -------- 👊" << std::endl;
+            file << std::endl << "Murder -------- " << std::endl;
             attacker->print(file);
             defender->print(file);
         }
@@ -139,7 +139,7 @@ int main() {
     for (size_t i = 0; i < 40; ++i)
         array.insert(factory(NpcType(std::rand() % 3 + 1), std::rand() % 500, std::rand() % 500));
 
-    std::cout << "Saving ... 😍 " << std::endl;
+    std::cout << "Saving ... " << std::endl;
 
     save(array, "npc.txt");
 
@@ -147,19 +147,19 @@ int main() {
 
     array = load("npc.txt");
 
-    std::cout << "Fighting ... 😲" << std::endl << array;
+    std::cout << "Fighting ... " << std::endl << array;
 
     for (size_t distance = 20; (distance <= 300) && !array.empty(); distance += 50) {
         auto dead_list = fight(array, distance);
         for (auto &d : dead_list) array.erase(d);
         std::cout << "Fight stats ----------" << std::endl
                   << "distance: " << distance << std::endl
-                  << "killed ☠️ : " << dead_list.size() << std::endl
+                  << "killed: " << dead_list.size() << std::endl
                   << std::endl
                   << std::endl;
     }
 
-    std::cout << "Survivors 🎉❤️ : " << array;
+    std::cout << "Survivors: " << array;
 
     return 0;
 }
