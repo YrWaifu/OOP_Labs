@@ -46,7 +46,6 @@ class MyAllocator {
             if ((*it) == p) {
                 delete[] (*it);
                 data_.erase(it);
-                --blockCount;
                 break;
             }
         }

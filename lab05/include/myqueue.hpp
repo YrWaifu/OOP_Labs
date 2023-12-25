@@ -80,7 +80,7 @@ class MyQueue {
         if (head == nullptr) {
             tail = nullptr;
         }
-        allocator.deallocate(temp, 1);
+        destroyNode(temp);
     }
 
     T& front() {
@@ -131,7 +131,8 @@ class MyQueue {
    private:
     void destroyNode(Node* node) {
         node->data.~T();
-        allocator.deallocate(node, 1);
+        int* ptr = allocator.allocate(node->data);
+        allocator.deallocate(ptr, 1);
     }
 
     Node* head;
