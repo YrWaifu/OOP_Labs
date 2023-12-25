@@ -128,8 +128,6 @@ class MyQueue {
 
     const_iterator end() const { return const_iterator(nullptr); }
 
-    size_t getBlockCount() const { return allocator.getBlockCount(); }
-
    private:
     void destroyNode(Node* node) {
         node->data.~T();

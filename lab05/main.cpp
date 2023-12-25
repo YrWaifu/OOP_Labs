@@ -34,7 +34,5 @@ int main() {
     std::cout << "Queue contains " << searchValue << ": " << (myQueue.contains(searchValue) ? "Yes" : "No")
               << std::endl;
 
-    std::cout << "Number of memory blocks used by the allocator: " << myQueue.getBlockCount() << std::endl;
-
     return 0;
 }

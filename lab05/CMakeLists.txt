@@ -12,8 +12,8 @@ set(CMAKE_CXX_STANDART_REQUIRED ON)
 
 add_executable(lab05 main.cpp ./include/allocator.hpp ./include/myqueue.hpp)
 
-# enable_testing()
-# add_executable(tests tests.cpp ./include/allocator.hpp ./include/vector.hpp)
+enable_testing()
+add_executable(tests tests.cpp ./include/allocator.hpp ./include/myqueue.hpp)
 
-# target_link_libraries(tests ${GTEST_LIBRARIES})
-# add_test(NAME BASIC COMMAND tests)
+target_link_libraries(tests ${GTEST_LIBRARIES})
+add_test(NAME BASIC COMMAND tests)

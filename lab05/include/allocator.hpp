@@ -52,8 +52,6 @@ class MyAllocator {
         }
     }
 
-    size_type getBlockCount() const { return blockCount; }
-
    private:
     std::vector<pointer> data_;
     pointer position_ = nullptr;

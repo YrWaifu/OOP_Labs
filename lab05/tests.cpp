@@ -1,95 +1,58 @@
 #include <gtest/gtest.h>
 
-#include <vector>
+#include "./include/myqueue.hpp"
 
-#include "include/allocator.hpp"
-#include "include/vector.hpp"
+TEST(MyQueueTest, EnqueueAndDequeue) {
+    MyQueue<int, 3> queue;
 
-TEST(Allocator, std_vector) {
-    std::vector<int, Allocator<int>> v1;
+    ASSERT_TRUE(queue.empty());
 
-    v1.push_back(1);
-    v1.push_back(2);
-    v1.push_back(3);
-    v1.push_back(4);
-    v1.push_back(5);
-    v1.push_back(10);
-    v1.push_back(10);
-    v1.push_back(-1);
-    v1.push_back(10);
-    v1.push_back(10);
-    v1.pop_back();
-    v1.pop_back();
-    v1.pop_back();
-    v1.pop_back();
+    queue.enqueue(1);
+    queue.enqueue(2);
+    queue.enqueue(3);
 
-    std::vector<int> v2 = {1, 2, 3, 4, 5, 10};
+    ASSERT_EQ(queue.size(), 3);
+    ASSERT_EQ(queue.front(), 1);
 
-    ASSERT_TRUE(v1.size() == v2.size());
+    queue.dequeue();
+    ASSERT_EQ(queue.size(), 2);
+    ASSERT_EQ(queue.front(), 2);
 
-    for (int i = 0; i < v2.size(); ++i) {
-        ASSERT_TRUE(v1[i] == v2[i]);
-    }
+    queue.dequeue();
+    ASSERT_EQ(queue.size(), 1);
+    ASSERT_EQ(queue.front(), 3);
+
+    queue.dequeue();
+    ASSERT_TRUE(queue.empty());
 }
 
-TEST(Allocator, std_map) {
-    std::map<int, int, std::less<int>, Allocator<std::pair<int, int>>> m1;
+TEST(MyQueueTest, Iterator) {
+    MyQueue<int, 3> queue;
 
-    int64_t counter = 1;
-    m1.insert(std::pair<int, int>(0, 0));
-    for (int64_t i = 1; i < 10; ++i) {
-        counter *= i;
-        m1.insert(std::pair<int, int>(i, counter));
+    queue.enqueue(1);
+    queue.enqueue(2);
+    queue.enqueue(3);
+
+    int sum = 0;
+    for (const auto& value : queue) {
+        sum += value;
     }
 
-    m1.erase(4);
-    m1.erase(5);
-
-    std::map<int, int> m2;
-
-    counter = 1;
-    m2.insert(std::pair<int, int>(0, 0));
-    for (int64_t i = 1; i < 10; ++i) {
-        counter *= i;
-        m2.insert(std::pair<int, int>(i, counter));
-    }
-
-    m2.erase(4);
-    m2.erase(5);
-
-    for (int i = 0; i < 10; ++i) {
-        ASSERT_TRUE(m1[i] == m2[i]);
-    }
+    ASSERT_EQ(sum, 6);
 }
 
-TEST(Allocator, Vector) {
-    Vector<int, Allocator<int>> v1;
+TEST(MyQueueTest, Contains) {
+    MyQueue<std::string, 3> queue;
 
-    v1.push_back(1);
-    v1.push_back(2);
-    v1.push_back(3);
-    v1.push_back(4);
-    v1.push_back(5);
-    v1.push_back(10);
-    v1.push_back(10);
-    v1.push_back(-1);
-    v1.push_back(10);
-    v1.push_back(10);
-    v1.pop_back();
-    v1.pop_back();
-    v1.pop_back();
-    v1.pop_back();
+    queue.enqueue("apple");
+    queue.enqueue("banana");
+    queue.enqueue("orange");
 
-    std::vector<int> v2 = {1, 2, 3, 4, 5, 10};
-
-    ASSERT_TRUE(v1.size() == v2.size());
-
-    for (int i = 0; i < v2.size(); ++i) {
-        ASSERT_TRUE(v1[i] == v2[i]);
-    }
+    ASSERT_TRUE(queue.contains("banana"));
+    ASSERT_FALSE(queue.contains("grape"));
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
