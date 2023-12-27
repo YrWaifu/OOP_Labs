@@ -1,0 +1,84 @@
+#pragma once
+
+#include <cmath>
+#include <iostream>
+#include <memory>
+#include <set>
+#include <shared_mutex>
+#include <vector>
+
+class NPC;
+
+class bear;
+
+class werewolf;
+
+class robber;
+
+using set_t = std::set<std::shared_ptr<NPC>>;
+
+enum NPC_type {
+  UNKNOWN = 0,
+  BEAR = 1,
+  WEREWOLF = 2,
+  ROBBER = 3
+};
+
+class Observer {
+public:
+  Observer() = default;
+  
+  virtual ~Observer() = default;
+
+  virtual void report_killed(const std::shared_ptr<NPC> attacker, const std::shared_ptr<NPC> defender) = 0;
+};
+
+class NPC {
+protected:
+  NPC_type type;
+  int x = 0, y = 0;
+  std::string name;
+  bool _alive = true;
+  mutable std::shared_mutex mutex;
+  std::vector<std::shared_ptr<Observer>> observers;
+  static int id;
+
+  NPC(NPC_type type, int x, int y, const std::string& name);
+
+  virtual ~NPC() = default;
+
+public:
+  virtual std::string get_type() = 0;
+
+  const int get_x() const;
+
+  const int get_y() const;
+
+  virtual int get_damage_range() const = 0;
+
+  int get_energy() const;
+
+  const std::string& get_name() const;
+
+  bool alive() const;
+
+  virtual bool accept(std::shared_ptr<NPC> visitor) = 0;
+
+  virtual bool fight(std::shared_ptr<bear> accepter) = 0;
+
+  virtual bool fight(std::shared_ptr<werewolf> accepter) = 0;
+
+  virtual bool fight(std::shared_ptr<robber> accepter) = 0;
+
+  void attach(std::shared_ptr<Observer> observer);
+
+  void notify_killed(const std::shared_ptr<NPC> defender);
+
+  bool near(const std::shared_ptr<NPC>& enemy, size_t distance) const;
+
+  virtual void move(int max_x, int max_y) = 0;
+
+  void must_die();
+
+  friend std::ostream& operator<<(std::ostream& out, const NPC& npc);
+};
